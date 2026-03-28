@@ -1,3 +1,4 @@
+//delete first node
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -19,22 +20,52 @@ void deleteFirstNode(struct Node** head) {
 }
 
 int main() {
+    // Create first node
     struct Node* head = malloc(sizeof(struct Node));
     head->data = 10;
+
+    // Create second node
     head->next = malloc(sizeof(struct Node));
     head->next->data = 20;
-    head->next->next = NULL;
 
-    printf("Initial list: %d -> %d\n", head->data, head->next->data);
-    deleteFirstNode(&head);
-    printf("List after deletion: ");
-    if (head != NULL) {
-        printf("%d\n", head->data);
-    } else {
-        printf("List is empty.\n");
+    // Create third node (30)
+    head->next->next = malloc(sizeof(struct Node));
+    head->next->next->data = 30;
+
+    // Create fourth node (40)
+    head->next->next->next = malloc(sizeof(struct Node));
+    head->next->next->next->data = 40;
+
+    // Last node points to NULL
+    head->next->next->next->next = NULL;
+
+    // Print initial list
+    printf("Initial list: ");
+    struct Node* temp = head;
+    while (temp != NULL) {
+        printf("%d -> ", temp->data);
+        temp = temp->next;
     }
+    printf("NULL\n");
+
+    // Delete first node
+    deleteFirstNode(&head);
+
+    // Print list after deletion
+    printf("List after deletion: ");
+    temp = head;
+    while (temp != NULL) {
+        printf("%d -> ", temp->data);
+        temp = temp->next;
+    }
+    printf("NULL\n");
 
     // Free remaining nodes
-    free(head);
+    while (head != NULL) {
+        struct Node* temp = head;
+        head = head->next;
+        free(temp);
+    }
+
     return 0;
 }
